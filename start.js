@@ -8,12 +8,6 @@ const utf8 = require('utf8');
 var urlMensaje = "https://api.telegram.org/bot" + config.key + "/sendPhoto?chat_id=" + config.channel + "&photo=";
 var urlSpeedhunters = 'http://speedhunters.com';
 var src, srcOld, href, title;
-
-
-setInterval(function () {
-	speedhuntersLoad();
-}, 600000);
-
 function speedhuntersLoad() {
 	request(urlSpeedhunters, function (err, resp, html) {
 		if (!err) {
@@ -25,9 +19,9 @@ function speedhuntersLoad() {
 				title = utf8.encode(title.replace("&", "and"))
 				urlMensaje = urlMensaje + src + "&caption=" + title + " " + href;
 				sendMessageTelegram();
+				srcOld=src;
 			} else {
-				console.log("Message not sent, it's the same article")
-
+				console.log((new Date(Date.now()).toLocaleString()) +" - Message not sent, it's the same article")
 			}
 		}
 	});
@@ -36,7 +30,13 @@ function speedhuntersLoad() {
 function sendMessageTelegram() {
 	request(urlMensaje, function (err, resp, html) {
 		if (!err) {
-			console.log("Message, its a new article ");
+			console.log((new Date(Date.now()).toLocaleString()) +" - Message sent, it's a new article")
 		}
 	});
 }
+
+setInterval(function () {
+	speedhuntersLoad();
+}, 600000);
+
+
