@@ -3,11 +3,10 @@ var request = require('request');
 var cheerio = require('cheerio');
 const utf8 = require('utf8');
 
-
-
 var urlMensaje = "https://api.telegram.org/bot" + config.key + "/sendPhoto?chat_id=" + config.channel + "&photo=";
 var urlSpeedhunters = 'http://speedhunters.com';
 var src, srcOld, href, title;
+
 function speedhuntersLoad() {
 	request(urlSpeedhunters, function (err, resp, html) {
 		if (!err) {
@@ -26,7 +25,6 @@ function speedhuntersLoad() {
 		}
 	});
 }
-
 function sendMessageTelegram() {
 	request(urlMensaje, function (err, resp, html) {
 		if (!err) {
@@ -35,8 +33,4 @@ function sendMessageTelegram() {
 	});
 }
 
-setInterval(function () {
-	speedhuntersLoad();
-}, 600000);
-
-
+speedhuntersLoad();
