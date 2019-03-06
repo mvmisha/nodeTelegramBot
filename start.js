@@ -32,5 +32,9 @@ function sendMessageTelegram() {
 		}
 	});
 }
+var requestLoop = setInterval(function(){
+  speedhuntersLoad();
+}, 1800000);
 
-speedhuntersLoad();
+
+
