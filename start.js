@@ -3,12 +3,8 @@ var config = require('./config.json'),
 	cheerio = require('cheerio'),
 	utf8 = require('utf8'),
 	fs = require('fs'),
-	urlMensaje = "https://api.telegram.org/bot" + config.key + "/sendPhoto?chat_id=" + config.channel + "&photo=",
 	urlSpeedhunters = 'http://speedhunters.com',
-	src,
-	srcOld=config.photo,
-	href, 
-	title;
+	src, srcOld=config.photo,href, title, urlMensaje;
 
 function speedhuntersLoad() {
 	request(urlSpeedhunters, function (err, resp, html) {
@@ -19,9 +15,10 @@ function speedhuntersLoad() {
 				href = $(".with-image a:first-child").attr('href');
 				title = $(".with-image img:first-child").attr('alt');
 				title = utf8.encode(title.replace("&", "and"))
-				urlMensaje = urlMensaje + src + "&caption=" + title + " " + href;
+				urlMensaje = "https://api.telegram.org/bot" + config.key + "/sendPhoto?chat_id=" + config.channel + "&photo=" + src + "&caption=" + title + " " + href;
 				sendMessageTelegram(urlMensaje);
 				srcOld=src;
+				config.article=src;
 				fs.writeFileSync('./config.json', JSON.stringify(config));
 			} else {
 				console.log((new Date(Date.now()).toLocaleString()) +" - Message not sent, it's the same article")
