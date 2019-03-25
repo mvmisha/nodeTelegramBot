@@ -4,13 +4,14 @@ var config = require('./config.json'),
 	utf8 = require('utf8'),
 	fs = require('fs'),
 	urlSpeedhunters = 'http://speedhunters.com',
-	src, srcOld=config.photo,href, title, urlMensaje;
+	src, srcOld,href, title, urlMensaje;
 
 function speedhuntersLoad() {
 	request(urlSpeedhunters, function (err, resp, html) {
 		if (!err) {
 			const $ = cheerio.load(html);
 			src = $(".with-image img:first-child").attr('src');
+			srcOld=config.photo;
 			if (src != srcOld) {
 				href = $(".with-image a:first-child").attr('href');
 				title = $(".with-image img:first-child").attr('alt');
